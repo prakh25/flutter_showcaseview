@@ -27,6 +27,7 @@
 import 'package:flutter/material.dart';
 import 'package:showcaseview/get_position.dart';
 import 'package:showcaseview/measure_size.dart';
+import 'package:showcaseview/showcase.dart';
 
 class ToolTipWidget extends StatefulWidget {
   final GetPosition position;
@@ -46,24 +47,27 @@ class ToolTipWidget extends StatefulWidget {
   static bool isArrowUp;
   final VoidCallback onTooltipTap;
   final EdgeInsets contentPadding;
+  final TooltipPosition tooltipPosition;
 
-  ToolTipWidget(
-      {this.position,
-      this.offset,
-      this.screenSize,
-      this.title,
-      this.description,
-      this.animationOffset,
-      this.titleTextStyle,
-      this.descTextStyle,
-      this.container,
-      this.tooltipColor,
-      this.textColor,
-      this.showArrow,
-      this.contentHeight,
-      this.contentWidth,
-      this.onTooltipTap,
-      this.contentPadding});
+  ToolTipWidget({
+    this.position,
+    this.offset,
+    this.screenSize,
+    this.title,
+    this.description,
+    this.animationOffset,
+    this.titleTextStyle,
+    this.descTextStyle,
+    this.container,
+    this.tooltipColor,
+    this.textColor,
+    this.showArrow,
+    this.contentHeight,
+    this.contentWidth,
+    this.onTooltipTap,
+    this.contentPadding,
+    this.tooltipPosition,
+  });
 
   @override
   _ToolTipWidgetState createState() => _ToolTipWidgetState();
@@ -78,11 +82,15 @@ class _ToolTipWidgetState extends State<ToolTipWidget> {
     return (widget.screenSize.height - position.dy) <= height;
   }
 
-  String findPositionForContent(Offset position) {
-    if (isCloseToTopOrBottom(position)) {
-      return 'ABOVE';
+  TooltipPosition findPositionForContent(Offset position) {
+    if (widget.tooltipPosition == null) {
+      if (isCloseToTopOrBottom(position)) {
+        return TooltipPosition.ABOVE;
+      } else {
+        return TooltipPosition.BELOW;
+      }
     } else {
-      return 'BELOW';
+      return widget.tooltipPosition;
     }
   }
 
@@ -158,7 +166,8 @@ class _ToolTipWidgetState extends State<ToolTipWidget> {
   @override
   Widget build(BuildContext context) {
     final contentOrientation = findPositionForContent(position);
-    final contentOffsetMultiplier = contentOrientation == "BELOW" ? 1.0 : -1.0;
+    final contentOffsetMultiplier =
+        contentOrientation == TooltipPosition.BELOW ? 1.0 : -1.0;
     ToolTipWidget.isArrowUp = contentOffsetMultiplier == 1.0;
 
     final contentY = ToolTipWidget.isArrowUp

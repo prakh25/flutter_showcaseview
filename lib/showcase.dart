@@ -7,6 +7,11 @@ import 'get_position.dart';
 import 'layout_overlays.dart';
 import 'tooltip_widget.dart';
 
+enum TooltipPosition {
+  ABOVE,
+  BELOW,
+}
+
 class Showcase extends StatefulWidget {
   final Widget child;
   final String title;
@@ -29,6 +34,7 @@ class Showcase extends StatefulWidget {
   final VoidCallback onTargetClick;
   final bool disposeOnTap;
   final bool disableAnimation;
+  final TooltipPosition tooltipPosition;
 
   const Showcase({
     @required this.key,
@@ -49,6 +55,7 @@ class Showcase extends StatefulWidget {
     this.disableAnimation = false,
     this.contentPadding = const EdgeInsets.symmetric(vertical: 8),
     this.onToolTipClick,
+    this.tooltipPosition,
   })  : height = null,
         width = null,
         container = null,
@@ -97,6 +104,7 @@ class Showcase extends StatefulWidget {
       this.disposeOnTap,
       this.animationDuration = const Duration(milliseconds: 2000),
       this.disableAnimation = false,
+      this.tooltipPosition,
       this.contentPadding = const EdgeInsets.symmetric(vertical: 8)})
       : this.showArrow = false,
         this.onToolTipClick = null,
@@ -276,6 +284,7 @@ class _ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
               contentWidth: widget.width,
               onTooltipTap: _getOnTooltipTap(),
               contentPadding: widget.contentPadding,
+              tooltipPosition: widget.tooltipPosition,
             ),
           ],
         ),
