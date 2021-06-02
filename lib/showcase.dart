@@ -317,8 +317,12 @@ class _TargetWidget extends StatelessWidget {
         child: GestureDetector(
           onTap: onTap,
           child: Container(
-            height: size.height + 16,
-            width: size.width + 16,
+            constraints: BoxConstraints(
+              minHeight: size.height + 16,
+              maxHeight: size.height + 16,
+              minWidth: size.width + 16,
+              maxWidth: size.width + 16
+            ),
             decoration: ShapeDecoration(
               shape: shapeBorder ??
                   RoundedRectangleBorder(
