@@ -310,6 +310,8 @@ class _TargetWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
+      width: size.width + 16,
+      height: size.height + 16,
       top: offset.dy,
       left: offset.dx,
       child: FractionalTranslation(
@@ -317,12 +319,6 @@ class _TargetWidget extends StatelessWidget {
         child: GestureDetector(
           onTap: onTap,
           child: Container(
-            constraints: BoxConstraints(
-              minHeight: size.height + 16,
-              maxHeight: size.height + 16,
-              minWidth: size.width + 16,
-              maxWidth: size.width + 16
-            ),
             decoration: ShapeDecoration(
               shape: shapeBorder ??
                   RoundedRectangleBorder(
